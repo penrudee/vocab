@@ -12,43 +12,54 @@
 </head>
 
 <body>
-	<div id='main' class='container m-4 mx-auto px-4'>
-		<h1 class='text-3xl font-bold mb-4'>Vocab List</h1>
+	<header class="topbar">
+		<nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-default">
+			<div class="max-w-acreen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+				<a href="https://s.shopee.co.th/AKbN3fMT7U" class="navbar-brand" id="affiliated">
+					📖
+					<span class="self-center text-xl text-heading font-semibold whitespace-nowrap">หนังสือ ตะลุยโจทย์
+						Vocab 1,000 ข้อ</span>
+				</a>
+			</div>
+		</nav>
+	</header>
+	<main id="tableContainer" class="table-container pt-20">
+		<div class="container">
 
-		<!-- เพิ่มโครงสร้าง <thead> และ <tbody> ให้ตาราง -->
-		<table id="vocabsTable" class="display w-full">
-			<thead>
-				<tr>
-					<th>คำศัพท์</th>
-					<th>ประเภทคำ</th>
-					<th>คำอ่าน</th>
-					<th>ความหมาย</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-				<!-- ข้อมูลจะถูกโหลดมาแสดงที่นี่ -->
-			</tbody>
-		</table>
 
-		<script>
-			var url = "vocab1.csv"
-			fetch(url)
-				.then((response) => response.text())
-				.then(data => {
-					const lines = data.split('\n').filter(line => line.trim() !== '');
-					var rows = '';
+			<table id="vocabsTable" class="display w-full">
+				<thead>
+					<tr>
+						<th>คำศัพท์</th>
+						<th>ประเภทคำ</th>
+						<th>คำอ่าน</th>
+						<th>ความหมาย</th>
 
-					for (let i = 1; i < lines.length; i++) {
-						const cols = lines[i].split(',');
-						if (cols.length >= 4) {
-							const vocab = cols[0].trim();
-							const pos = cols[1].trim();
-							const phonetics = cols[2].trim();
-							const meaning = cols[3].trim();
-							
+					</tr>
+				</thead>
+				<tbody>
 
-							rows += `<tr>
+				</tbody>
+			</table>
+
+			<script>
+				var url = "vocab1.csv"
+				fetch(url)
+					.then((response) => response.text())
+					.then(data => {
+						const lines = data.split('\n').filter(line => line.trim() !== '');
+						var rows = '';
+
+						for (let i = 1; i < lines.length; i++) {
+							const cols = lines[i].split(',');
+							if (cols.length >= 4) {
+								const vocab = cols[0].trim();
+								const pos = cols[1].trim();
+								const phonetics = cols[2].trim();
+								const meaning = cols[3].trim();
+
+
+								rows += `<tr>
                                     <td><span class="vocab-word font-semibold">${vocab}</span></td>
                                     <td>${pos}</td>
                                     <td>
@@ -58,35 +69,36 @@
                                     <td>${meaning}</td>
 									
                                 </tr>`;
+							}
 						}
-					}
 
-					// 1. นำข้อมูลใส่เข้าไปใน <tbody>
-					document.querySelector("#vocabsTable tbody").innerHTML = rows;
+						// 1. นำข้อมูลใส่เข้าไปใน <tbody>
+						document.querySelector("#vocabsTable tbody").innerHTML = rows;
 
-					// 2. เรียกใช้งาน DataTable หลังจากข้อมูลใส่ลงตารางเรียบร้อยแล้ว
-					new DataTable('#vocabsTable', {
-						pageLength: 25
+						// 2. เรียกใช้งาน DataTable หลังจากข้อมูลใส่ลงตารางเรียบร้อยแล้ว
+						new DataTable('#vocabsTable', {
+							pageLength: 25
+						});
+					})
+					.catch(error => {
+						console.error('Error loading CSV file:', error);
 					});
-				})
-				.catch(error => {
-					console.error('Error loading CSV file:', error);
-				});
 
-			function speakWord(word) {
-				if ('speechSynthesis' in window) {
-					window.speechSynthesis.cancel();
-					const utterace = new SpeechSynthesisUtterance(word);
-					utterace.lang = 'en-US';
-					utterace.rate = 1.0;
-					utterace.pitch = 1.0;
-					window.speechSynthesis.speak(utterace);
-				} else {
-					alert('เบราเซอร์ของคุณไม่รองรับการสังเคราะห์เสียงพูด');
-				}
-			};
-		</script>
-	</div>
+				function speakWord(word) {
+					if ('speechSynthesis' in window) {
+						window.speechSynthesis.cancel();
+						const utterace = new SpeechSynthesisUtterance(word);
+						utterace.lang = 'en-US';
+						utterace.rate = 1.0;
+						utterace.pitch = 1.0;
+						window.speechSynthesis.speak(utterace);
+					} else {
+						alert('เบราเซอร์ของคุณไม่รองรับการสังเคราะห์เสียงพูด');
+					}
+				};
+			</script>
+		</div>
+	</main>
 </body>
 
 </html>
