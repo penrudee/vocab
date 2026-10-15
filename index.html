@@ -2,7 +2,6 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<script src="https://cdn.jsdelivr.net/npm/speechsynthesisutterance@1/index.min.js"></script>
 		<title>English Vocab</title>
 	</head>
 	<body>
@@ -33,7 +32,7 @@
 
 					window.speechSynthesis.cancel();
 					//create text to speech
-					const utterace = new SpeechSynthesisUtterace(word);
+					const utterace = new SpeechSynthesisUtterance(word);
 					//config speech to eng
 					utterace.lang = 'en-US';
 					//config speech rate
