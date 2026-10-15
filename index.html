@@ -27,6 +27,25 @@
 			});
 			ul += '</ul>';
 			document.getElementById("vocabsContainer").innerHTML = ul;
+			function speakWord(word){
+				if('speechSynthesis' in window){
+
+					window.speechSynthesis.cancel();
+					//create text to speech
+					const utterace = new SpeechSynthesisUtterace(word);
+					//config speech to eng
+					utterace.lang = 'en-US';
+					//config speech rate
+					utterace.rate=1.0;  //0.1-10
+					utterace.pitch=1.0; // 0-2
+
+					//start speech
+					window.speechSynthesis.speak(utterace);
+				}else{
+					alert('เบราเซอร์ของคุณไม่รองรับการสังเคราะห์เสียงพูด');
+				}
+
+			};
 		</script>
 	</body>
 </html>
