@@ -2,64 +2,172 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-	<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.css">
-	<link rel="icon" type="image/svg+xml" href="favicon.svg">
-	<script src="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-	<title>English Vocab</title>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script src="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>English Vocab</title>
+    <style>
+        .learned-row {
+            text-decoration: line-through;
+            opacity: 0.5;
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 
 <body>
-	<header class="topbar">
-		<nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-default">
-			<div class="max-w-acreen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-				<a href="https://s.shopee.co.th/AKbN3fMT7U" class="navbar-brand" id="affiliated">
-					📖
-					<span class="self-center text-xl text-heading font-semibold whitespace-nowrap">หนังสือ ตะลุยโจทย์
-						Vocab 1,000 ข้อ</span>
-				</a>
-			</div>
-		</nav>
-	</header>
-	<main id="tableContainer" class="table-container pt-20">
-		<div class="container">
+    <header class="topbar">
+        <nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-default bg-white shadow-sm">
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                <a href="#" class="navbar-brand flex items-center gap-2" id="affiliated">
+                    📖
+                    <span class="self-center text-xl text-heading font-semibold whitespace-nowrap">กำลังโหลดหนังสือแนะนำ...</span>
+                </a>
+            </div>
+        </nav>
+    </header>
 
+    <main id="tableContainer" class="table-container pt-24 px-6 max-w-6xl mx-auto">
+        <div class="container">
+            
+            <!-- ส่วนหัวตารางและปุ่มเพิ่มคำศัพท์ -->
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold text-gray-800">รายการคำศัพท์ภาษาอังกฤษ</h1>
+                <button onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer shadow transition">
+                    ➕ เพิ่มคำศัพท์
+                </button>
+            </div>
 
-			<table id="vocabsTable" class="display w-full">
-				<thead>
-					<tr>
-						<th>คำศัพท์</th>
-						<th>ประเภทคำ</th>
-						<th>คำอ่าน</th>
-						<th>ความหมาย</th>
+            <table id="vocabsTable" class="display w-full">
+                <thead>
+                    <tr>
+                        <th>สถานะ</th>
+                        <th>คำศัพท์</th>
+                        <th>ประเภทคำ</th>
+                        <th>คำอ่าน</th>
+                        <th>ความหมาย</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ข้อมูลจะถูกโหลดใส่ที่นี่โดยอัตโนมัติ -->
+                </tbody>
+            </table>
 
-					</tr>
-				</thead>
-				<tbody>
+            <!-- Modal สำหรับเพิ่มคำศัพท์ -->
+            <div id="addModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+                <div class="bg-white p-6 rounded-xl w-full max-w-md shadow-2xl relative">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">เพิ่มคำศัพท์ใหม่</h3>
+                    <form id="addVocabForm" onsubmit="saveCustomVocab(event)">
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1 text-gray-700">คำศัพท์ (Vocab) *</label>
+                            <input type="text" id="newVocab" required class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1 text-gray-700">ประเภทคำ (เช่น n., v., adj.)</label>
+                            <input type="text" id="newPos" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1 text-gray-700">คำอ่าน</label>
+                            <input type="text" id="newPhonetics" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                        </div>
+                        <div class="mb-5">
+                            <label class="block text-sm font-medium mb-1 text-gray-700">ความหมาย *</label>
+                            <input type="text" id="newMeaning" required class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                        </div>
+                        <div class="flex justify-end gap-2">
+                            <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm font-medium cursor-pointer transition">ยกเลิก</button>
+                            <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium cursor-pointer transition">บันทึก</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-				</tbody>
-			</table>
+            <script>
+                // 1. ระบบสุ่มหนังสือ Affiliate
+                var book_list = [
+                    {
+                        title: "ตะลุย โจทย์ Grammar | Vocab | Reading | Error | A-level | TGAT | CLOZE | WORD | ENGLISH | alevel | alevelอังกฤษ",
+                        url: "https://s.shopee.co.th/2qVM9A63Va"
+                    },
+                    {
+                        title: "Se-ed (ซีเอ็ด) : หนังสือ ตะลุยโจทย์ Vocab 1,000 ข้อ",
+                        url: "https://s.shopee.co.th/2qVM9AvTed"
+                    }
+					,
+                    {
+                        title: "English พิชิตทุกสนามสอบ เข้า ม.1 Vocab เล่ม 2 - วโรดม วณิชศิลป์ ",
+                        url: "https://s.shopee.co.th/W7RO7595c"
+                    }
+                ];
 
-			<script>
-				var url = "vocab1.csv"
-				fetch(url)
-					.then((response) => response.text())
-					.then(data => {
-						const lines = data.split('\n').filter(line => line.trim() !== '');
-						var rows = '';
+                function randomizeAffiliatedBook() {
+                    if (book_list.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * book_list.length);
+                        const selectedBook = book_list[randomIndex];
+                        const affiliateLink = document.getElementById('affiliated');
+                        if (affiliateLink) {
+                            affiliateLink.href = selectedBook.url;
+                            const spanElement = affiliateLink.querySelector('span');
+                            if (spanElement) {
+                                spanElement.textContent = selectedBook.title;
+                            }
+                        }
+                    }
+                }
+                randomizeAffiliatedBook();
 
-						for (let i = 1; i < lines.length; i++) {
-							const cols = lines[i].split(',');
-							if (cols.length >= 4) {
-								const vocab = cols[0].trim();
-								const pos = cols[1].trim();
-								const phonetics = cols[2].trim();
-								const meaning = cols[3].trim();
+                // 2. โหลดข้อมูลคำศัพท์จาก CSV และรวมกับคำศัพท์ที่ผู้ใช้เพิ่มเอง
+                var url = "vocab1.csv"
+                fetch(url)
+                    .then((response) => response.text())
+                    .then(data => {
+                        const lines = data.split('\n').filter(line => line.trim() !== '');
+                        var rows = '';
+                        const learnedWords = JSON.parse(localStorage.getItem('learnedVocabs')) || {};
+                        const customWords = JSON.parse(localStorage.getItem('customVocabs')) || [];
 
+                        let rowIndex = 1;
 
-								rows += `<tr>
+                        // นำคำศัพท์ที่ผู้ใช้เพิ่มเองมาแสดงก่อน (อยู่ด้านบนสุดของตาราง)
+                        customWords.forEach((item, index) => {
+                            const vocabId = `custom-${index}`;
+                            const isChecked = learnedWords[item.vocab] ? 'checked' : '';
+                            const rowClass = learnedWords[item.vocab] ? 'learned-row' : '';
+
+                            rows += `<tr id="row-${vocabId}" class="${rowClass}">
+                                <td>
+                                    <input type="checkbox" ${isChecked} onclick="toggleLearned('${item.vocab}', 'row-${vocabId}')" class="cursor-pointer w-4 h-4">
+                                </td>
+                                <td><span class="vocab-word font-semibold text-blue-600">${item.vocab}</span> <span class="text-xs bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded ml-1">Custom</span></td>
+                                <td>${item.pos}</td>
+                                <td>
+                                    ${item.phonetics} 
+                                    <button onclick="speakWord('${item.vocab}')" class="ml-2 cursor-pointer">🔊</button>
+                                </td>
+                                <td>${item.meaning}</td>
+                            </tr>`;
+                        });
+
+                        // นำคำศัพท์จากไฟล์ CSV มาแสดงต่อ
+                        for (let i = 1; i < lines.length; i++) {
+                            const cols = lines[i].split(',');
+                            if (cols.length >= 4) {
+                                const vocab = cols[0].trim();
+                                const pos = cols[1].trim();
+                                const phonetics = cols[2].trim();
+                                const meaning = cols[3].trim();
+                                const vocabId = `csv-${i}`;
+
+                                const isChecked = learnedWords[vocab] ? 'checked' : '';
+                                const rowClass = learnedWords[vocab] ? 'learned-row' : '';
+
+                                rows += `<tr id="row-${vocabId}" class="${rowClass}">
+                                    <td>
+                                        <input type="checkbox" ${isChecked} onclick="toggleLearned('${vocab}', 'row-${vocabId}')" class="cursor-pointer w-4 h-4">
+                                    </td>
                                     <td><span class="vocab-word font-semibold">${vocab}</span></td>
                                     <td>${pos}</td>
                                     <td>
@@ -67,38 +175,84 @@
                                         <button onclick="speakWord('${vocab}')" class="ml-2 cursor-pointer">🔊</button>
                                     </td>
                                     <td>${meaning}</td>
-									
                                 </tr>`;
-							}
-						}
+                            }
+                            rowIndex++;
+                        }
 
-						// 1. นำข้อมูลใส่เข้าไปใน <tbody>
-						document.querySelector("#vocabsTable tbody").innerHTML = rows;
+                        // นำข้อมูลใส่ลงใน <tbody>
+                        document.querySelector("#vocabsTable tbody").innerHTML = rows;
 
-						// 2. เรียกใช้งาน DataTable หลังจากข้อมูลใส่ลงตารางเรียบร้อยแล้ว
-						new DataTable('#vocabsTable', {
-							pageLength: 25
-						});
-					})
-					.catch(error => {
-						console.error('Error loading CSV file:', error);
-					});
+                        // เปิดใช้งาน DataTable
+                        new DataTable('#vocabsTable', {
+                            pageLength: 25
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error loading CSV file:', error);
+                    });
 
-				function speakWord(word) {
-					if ('speechSynthesis' in window) {
-						window.speechSynthesis.cancel();
-						const utterace = new SpeechSynthesisUtterance(word);
-						utterace.lang = 'en-US';
-						utterace.rate = 1.0;
-						utterace.pitch = 1.0;
-						window.speechSynthesis.speak(utterace);
-					} else {
-						alert('เบราเซอร์ของคุณไม่รองรับการสังเคราะห์เสียงพูด');
-					}
-				};
-			</script>
-		</div>
-	</main>
+                // 3. ฟังก์ชันควบคุม Modal
+                function openModal() {
+                    document.getElementById('addModal').classList.remove('hidden');
+                }
+
+                function closeModal() {
+                    document.getElementById('addModal').classList.add('hidden');
+                    document.getElementById('addVocabForm').reset();
+                }
+
+                // 4. ฟังก์ชันบันทึกคำศัพท์ใหม่ลง localStorage
+                function saveCustomVocab(event) {
+                    event.preventDefault();
+                    
+                    const newVocab = {
+                        vocab: document.getElementById('newVocab').value.trim(),
+                        pos: document.getElementById('newPos').value.trim(),
+                        phonetics: document.getElementById('newPhonetics').value.trim(),
+                        meaning: document.getElementById('newMeaning').value.trim()
+                    };
+
+                    let customWords = JSON.parse(localStorage.getItem('customVocabs')) || [];
+                    customWords.unshift(newVocab); // เพิ่มไว้บนสุด
+                    localStorage.setItem('customVocabs', JSON.stringify(customWords));
+
+                    closeModal();
+                    location.reload(); // รีเฟรชหน้าเว็บเพื่อแสดงข้อมูลใหม่ทันที
+                }
+
+                // 5. ฟังก์ชันสถานะขีดฆ่า (จำแล้ว)
+                function toggleLearned(vocab, rowId) {
+                    let learnedWords = JSON.parse(localStorage.getItem('learnedVocabs')) || {};
+                    const rowElement = document.getElementById(rowId);
+
+                    if (learnedWords[vocab]) {
+                        delete learnedWords[vocab];
+                        if (rowElement) rowElement.classList.remove('learned-row');
+                    } else {
+                        learnedWords[vocab] = true;
+                        if (rowElement) rowElement.classList.add('learned-row');
+                    }
+
+                    localStorage.setItem('learnedVocabs', JSON.stringify(learnedWords));
+                }
+
+                // 6. ฟังก์ชันออกเสียงคำศัพท์
+                function speakWord(word) {
+                    if ('speechSynthesis' in window) {
+                        window.speechSynthesis.cancel();
+                        const utterace = new SpeechSynthesisUtterance(word);
+                        utterace.lang = 'en-US';
+                        utterace.rate = 1.0;
+                        utterace.pitch = 1.0;
+                        window.speechSynthesis.speak(utterace);
+                    } else {
+                        alert('เบราเซอร์ของคุณไม่รองรับการสังเคราะห์เสียงพูด');
+                    }
+                };
+            </script>
+        </div>
+    </main>
 </body>
 
 </html>
