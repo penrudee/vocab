@@ -1,75 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name='viewport' content='width=device-width, initial-scal3=1.0'/>
-		<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.css">
-		<script src="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-		<title>English Vocab</title>
-	</head>
-	<body>
-		<div id='main' class='container m-4 mx-auto px-4'>
-		<h1 class='text-3xl font-bold'>Vocab List</h1>
-		<table id="vocabsTable">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+	<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.css">
+	<link rel="icon" type="image/svg+xml" href="favicon.svg">
+	<script src="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+	<title>English Vocab</title>
+</head>
+
+<body>
+	<div id='main' class='container m-4 mx-auto px-4'>
+		<h1 class='text-3xl font-bold mb-4'>Vocab List</h1>
+
+		<!-- เพิ่มโครงสร้าง <thead> และ <tbody> ให้ตาราง -->
+		<table id="vocabsTable" class="display w-full">
+			<thead>
+				<tr>
+					<th>คำศัพท์</th>
+					<th>ประเภทคำ</th>
+					<th>คำอ่าน</th>
+					<th>ความหมาย</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- ข้อมูลจะถูกโหลดมาแสดงที่นี่ -->
+			</tbody>
 		</table>
-		
-		<script defer>
-			new DataTable('#vocabsTable',{
-				columnDefs:[
-					
 
-				],
-				pageLength:25,
-			});
-			
-		</script>
 		<script>
-			var url = "https://penrudee.github.io/vocab/vocab1.csv"
-			fetch(url).then((response) => response.text())
-				.then((data)=>{
-				const array = data.split('\n').map((row)=>row.split(',');
-					console.log(array);
+			var url = "vocab1.csv"
+			fetch(url)
+				.then((response) => response.text())
+				.then(data => {
+					const lines = data.split('\n').filter(line => line.trim() !== '');
+					var rows = '';
+
+					for (let i = 1; i < lines.length; i++) {
+						const cols = lines[i].split(',');
+						if (cols.length >= 4) {
+							const vocab = cols[0].trim();
+							const pos = cols[1].trim();
+							const phonetics = cols[2].trim();
+							const meaning = cols[3].trim();
+
+							rows += `<tr>
+                                    <td><span class="vocab-word font-semibold">${vocab}</span></td>
+                                    <td>${pos}</td>
+                                    <td>
+                                        ${phonetics} 
+                                        <button onclick="speakWord('${vocab}')" class="ml-2 cursor-pointer">🔊</button>
+                                    </td>
+                                    <td>${meaning}</td>
+                                </tr>`;
+						}
+					}
+
+					// 1. นำข้อมูลใส่เข้าไปใน <tbody>
+					document.querySelector("#vocabsTable tbody").innerHTML = rows;
+
+					// 2. เรียกใช้งาน DataTable หลังจากข้อมูลใส่ลงตารางเรียบร้อยแล้ว
+					new DataTable('#vocabsTable', {
+						pageLength: 25
+					});
+				})
+				.catch(error => {
+					console.error('Error loading CSV file:', error);
 				});
-			var vocabs = [
-				"Cat",
-				"Dog",
-				"Bat"
-			];
-			var rows = ''
-			vocabs.forEach(function(vocab){
-				rows += `<tr>
-						<td>
-						<span class="vocab-word">${vocab}: </span>
-						<button onclick ="speakWord('${vocab}')">🔊</button>
-						</td>
-					</tr>
-					
 
-				`;
-
-			});
-			document.getElementById("vocabsTable").innerHTML = rows;
-			function speakWord(word){
-				if('speechSynthesis' in window){
-
+			function speakWord(word) {
+				if ('speechSynthesis' in window) {
 					window.speechSynthesis.cancel();
-					//create text to speech
 					const utterace = new SpeechSynthesisUtterance(word);
-					//config speech to eng
 					utterace.lang = 'en-US';
-					//config speech rate
-					utterace.rate=1.0;  //0.1-10
-					utterace.pitch=1.0; // 0-2
-
-					//start speech
+					utterace.rate = 1.0;
+					utterace.pitch = 1.0;
 					window.speechSynthesis.speak(utterace);
-				}else{
+				} else {
 					alert('เบราเซอร์ของคุณไม่รองรับการสังเคราะห์เสียงพูด');
 				}
-
 			};
 		</script>
-		</div>
-	</body>
+	</div>
+</body>
+
 </html>
