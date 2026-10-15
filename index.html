@@ -2,6 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
+		<script src="https://cdn.jsdelivr.net/npm/speechsynthesisutterance@1/index.min.js"></script>
 		<title>English Vocab</title>
 	</head>
 	<body>
@@ -18,8 +19,8 @@
 			vocabs.forEach(function(vocab){
 				ul += `
 					<li>
-						<span class="vocab-word">${vocab}</span>
-						<button onclick ="speakWord('${vocab}')"></button>
+						<span class="vocab-word">${vocab}: </span>
+						<button onclick ="speakWord('${vocab}')">Speak</button>
 					</li>
 
 				`;
