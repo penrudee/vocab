@@ -23,6 +23,7 @@
 					<th>ประเภทคำ</th>
 					<th>คำอ่าน</th>
 					<th>ความหมาย</th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -45,6 +46,7 @@
 							const pos = cols[1].trim();
 							const phonetics = cols[2].trim();
 							const meaning = cols[3].trim();
+							
 
 							rows += `<tr>
                                     <td><span class="vocab-word font-semibold">${vocab}</span></td>
@@ -54,6 +56,7 @@
                                         <button onclick="speakWord('${vocab}')" class="ml-2 cursor-pointer">🔊</button>
                                     </td>
                                     <td>${meaning}</td>
+									
                                 </tr>`;
 						}
 					}
