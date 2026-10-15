@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>English Vocab</title>
+	</head>
+	<body>
+		<h1>Vocab List</h1>
+		<div id="vocabsContainer">
+		</div>
+		<script>
+			var vocabs = [
+				"Cat",
+				"Dog",
+				"Bat"
+			];
+			var ul = '<ul>'
+			vocabs.forEach(function(vocab){
+				ul += '<li>' + vocab + '</li>';
+
+			});
+			ul += '</ul>';
+			document.getElementById("vocabsContainer").innerHTML = ul;
+		</script>
+	</body>
+</html>
