@@ -13,27 +13,43 @@
 		<h1 class='text-3xl font-bold'>Vocab List</h1>
 		<table id="vocabsTable">
 		</table>
-		<div id="vocabsContainer">
-		</div>
+		
+		<script defer>
+			new DataTable('#vocabsTable',{
+				columnDefs:[
+					
+
+				],
+				pageLength:25,
+			});
+			
+		</script>
 		<script>
+			var url = "https://penrudee.github.io/vocab/vocab1.csv"
+			fetch(url).then((response) => response.text())
+				.then((data)=>{
+				const array = data.split('\n').map((row)=>row.split(',');
+					console.log(array);
+				});
 			var vocabs = [
 				"Cat",
 				"Dog",
 				"Bat"
 			];
-			var tr = '<tr>'
+			var rows = ''
 			vocabs.forEach(function(vocab){
-				tr += `
-					<td>
+				rows += `<tr>
+						<td>
 						<span class="vocab-word">${vocab}: </span>
 						<button onclick ="speakWord('${vocab}')">🔊</button>
-					</td>
+						</td>
+					</tr>
+					
 
 				`;
 
 			});
-			tr += '</tr>';
-			document.getElementById("vocabsTable").innerHTML = tr;
+			document.getElementById("vocabsTable").innerHTML = rows;
 			function speakWord(word){
 				if('speechSynthesis' in window){
 
