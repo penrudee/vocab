@@ -16,7 +16,13 @@
 			];
 			var ul = '<ul>'
 			vocabs.forEach(function(vocab){
-				ul += '<li>' + vocab + '</li>';
+				ul += `
+					<li>
+						<span class="vocab-word">${vocab}</span>
+						<button onclick ="speakWord('${vocab}')"></button>
+					</li>
+
+				`;
 
 			});
 			ul += '</ul>';
