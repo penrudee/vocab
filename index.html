@@ -147,11 +147,12 @@
                                     <input type="checkbox" ${isChecked} onclick="toggleLearned('${item.vocab}', 'row-${vocabId}')" class="cursor-pointer w-4 h-4">
                                 </td>
                                 <td><span class="vocab-word font-semibold text-blue-600">${item.vocab}</span> <span class="text-xs bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded ml-1">Custom</span></td>
-                                <td>${item.pos}</td>
+                                
                                 <td>
                                     ${item.phonetics} 
                                     <button onclick="speakWord('${item.vocab}')" class="ml-2 cursor-pointer">🔊</button>
                                 </td>
+				<td>${item.pos}</td>
                                 <td>${item.meaning}</td>
                             </tr>`;
                         });
