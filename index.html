@@ -3,12 +3,16 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name='viewport' content='width=device-width, initial-scal3=1.0'/>
+		<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.css">
+		<script src="https://cdn.datatables.net/v/dt/dt-3.1.4/datatables.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<title>English Vocab</title>
 	</head>
 	<body>
-		<div id='main' class='container mx-auto px-4'>
+		<div id='main' class='container m-4 mx-auto px-4'>
 		<h1 class='text-3xl font-bold'>Vocab List</h1>
+		<table id="vocabsTable">
+		</table>
 		<div id="vocabsContainer">
 		</div>
 		<script>
@@ -19,17 +23,17 @@
 			];
 			var ul = '<ul>'
 			vocabs.forEach(function(vocab){
-				ul += `
-					<li>
+				tr += `
+					<td>
 						<span class="vocab-word">${vocab}: </span>
 						<button onclick ="speakWord('${vocab}')">🔊</button>
-					</li>
+					</td>
 
 				`;
 
 			});
-			ul += '</ul>';
-			document.getElementById("vocabsContainer").innerHTML = ul;
+			tr += '</tr>';
+			document.getElementById("vocabsTable").innerHTML = tr;
 			function speakWord(word){
 				if('speechSynthesis' in window){
 
