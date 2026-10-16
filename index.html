@@ -20,24 +20,24 @@
 
 <body>
     <header class="topbar">
-        <nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-default bg-white shadow-sm">
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="#" class="navbar-brand flex items-center gap-2" id="affiliated">
-                    สนับสนุนเวปไซต์ด้วยการช่วยกดลิงค์โฆษณาครับ📖
-                    <span class="self-center text-xl text-heading font-semibold whitespace-nowrap">กำลังโหลดหนังสือแนะนำ...</span>
+        <nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-b border-gray-200 bg-white shadow-sm">
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
+                <a href="#" id="affiliated" class="w-full block">
+                    <div class="text-xs text-gray-500 mb-0.5">สนับสนุนเวปไซต์ด้วยการช่วยกดลิงค์โฆษณาครับ 📖</div>
+                    <div><span class="self-center text-base sm:text-lg text-heading font-semibold text-blue-600 truncate block">กำลังโหลดหนังสือแนะนำ...</span></div>
                 </a>
             </div>
         </nav>
-	
     </header>
 
-    <main id="tableContainer" class="table-container pt-24 px-6 max-w-6xl mx-auto">
+    <main id="tableContainer" class="table-container pt-32 px-6 max-w-6xl mx-auto">
         <div class="container">
-            
+
             <!-- ส่วนหัวตารางและปุ่มเพิ่มคำศัพท์ -->
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-2xl font-bold text-gray-800">รายการคำศัพท์ภาษาอังกฤษ</h1>
-                <button onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer shadow transition">
+                <button onclick="openModal()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer shadow transition">
                     ➕ เพิ่มคำศัพท์
                 </button>
             </div>
@@ -46,12 +46,12 @@
                 <thead>
                     <tr>
                         <th>สถานะ</th>
-   			<th>คำศัพท์</th>
-			<th>คำอ่าน</th>
+                        <th>คำศัพท์</th>
+                        <th>คำอ่าน</th>
 
-			<th>ประเภทคำ</th>
+                        <th>ประเภทคำ</th>
 
-                        
+
                         <th>ความหมาย</th>
                     </tr>
                 </thead>
@@ -67,23 +67,31 @@
                     <form id="addVocabForm" onsubmit="saveCustomVocab(event)">
                         <div class="mb-3">
                             <label class="block text-sm font-medium mb-1 text-gray-700">คำศัพท์ (Vocab) *</label>
-                            <input type="text" id="newVocab" required class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                            <input type="text" id="newVocab" required
+                                class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
                         </div>
                         <div class="mb-3">
-                            <label class="block text-sm font-medium mb-1 text-gray-700">ประเภทคำ (เช่น n., v., adj.)</label>
-                            <input type="text" id="newPos" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                            <label class="block text-sm font-medium mb-1 text-gray-700">ประเภทคำ (เช่น n., v.,
+                                adj.)</label>
+                            <input type="text" id="newPos"
+                                class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
                         </div>
                         <div class="mb-3">
                             <label class="block text-sm font-medium mb-1 text-gray-700">คำอ่าน</label>
-                            <input type="text" id="newPhonetics" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                            <input type="text" id="newPhonetics"
+                                class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
                         </div>
                         <div class="mb-5">
-                            <label class="block text-sm font-medium mb-1 text-gray-700">ความหมาย ใช้ "/" ขั้นระหว่างความหมาย*</label>
-                            <input type="text" id="newMeaning" required class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
+                            <label class="block text-sm font-medium mb-1 text-gray-700">ความหมาย ใช้ "/"
+                                ขั้นระหว่างความหมาย*</label>
+                            <input type="text" id="newMeaning" required
+                                class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-blue-500">
                         </div>
                         <div class="flex justify-end gap-2">
-                            <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm font-medium cursor-pointer transition">ยกเลิก</button>
-                            <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium cursor-pointer transition">บันทึก</button>
+                            <button type="button" onclick="closeModal()"
+                                class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm font-medium cursor-pointer transition">ยกเลิก</button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium cursor-pointer transition">บันทึก</button>
                         </div>
                     </form>
                 </div>
@@ -100,15 +108,15 @@
                         title: "Se-ed (ซีเอ็ด) : หนังสือ ตะลุยโจทย์ Vocab 1,000 ข้อ",
                         url: "https://s.shopee.co.th/2qVM9AvTed"
                     }
-					,
+                    ,
                     {
                         title: "English พิชิตทุกสนามสอบ เข้า ม.1 Vocab เล่ม 2 - วโรดม วณิชศิลป์ ",
                         url: "https://s.shopee.co.th/W7RO7595c"
                     },
-		    {
-			title: "ตะลุย โจทย์ Grammar | Vocab | Reading | Error | A-level | TGAT | CLOZE | WORD | ENGLISH | alevel | alevelอังกฤษ",
-			url: "https://s.shopee.co.th/60SOBhVyvY"
-		    }
+                    {
+                        title: "ตะลุย โจทย์ Grammar | Vocab | Reading | Error | A-level | TGAT | CLOZE | WORD | ENGLISH | alevel | alevelอังกฤษ",
+                        url: "https://s.shopee.co.th/60SOBhVyvY"
+                    }
                 ];
 
                 function randomizeAffiliatedBook() {
@@ -215,7 +223,7 @@
                 // 4. ฟังก์ชันบันทึกคำศัพท์ใหม่ลง localStorage
                 function saveCustomVocab(event) {
                     event.preventDefault();
-                    
+
                     const newVocab = {
                         vocab: document.getElementById('newVocab').value.trim(),
                         pos: document.getElementById('newPos').value.trim(),
